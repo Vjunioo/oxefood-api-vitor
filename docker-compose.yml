@@ -8,6 +8,6 @@ services:
       POSTGRES_PASSWORD: oxefood
       POSTGRES_DB: oxefood-api-vitor
     ports:
-      - "5434:5432"
+      - "5435:5432"
     volumes:
       - ./postgres-data:/bitnami/postgresql/data
