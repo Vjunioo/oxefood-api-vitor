@@ -28,4 +28,25 @@ public class EntregadorService {
         return repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Entregador não encontrado."));
     }
+
+    @Transactional
+public void update(Long id, Entregador entregadorAlterado) {
+
+    Entregador entregador = repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Entregador não encontrado."));
+
+    entregador.setNome(entregadorAlterado.getNome());
+    entregador.setCpf(entregadorAlterado.getCpf());
+    entregador.setRg(entregadorAlterado.getRg());
+    entregador.setDataNascimento(entregadorAlterado.getDataNascimento());
+    entregador.setFoneCelular(entregadorAlterado.getFoneCelular());
+    entregador.setFoneFixo(entregadorAlterado.getFoneFixo());
+    entregador.setQtdEntregasRealizadas(entregadorAlterado.getQtdEntregasRealizadas());
+    entregador.setValorFrete(entregadorAlterado.getValorFrete());
+    entregador.setEndereco(entregadorAlterado.getEndereco());
+    
+    entregador.setVersao(entregador.getVersao() + 1);
+
+    repository.save(entregador);
+}
 }
