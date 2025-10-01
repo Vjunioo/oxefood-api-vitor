@@ -43,6 +43,14 @@ public List<Cliente> listarTodos() {
         return repository.findById(id).get();
     }
 
+@Transactional
+   public void delete(Long id) {
+
+       Cliente cliente = repository.findById(id).get();
+       cliente.setHabilitado(Boolean.FALSE);
+
+       repository.save(cliente);
+   }
 
 
 }

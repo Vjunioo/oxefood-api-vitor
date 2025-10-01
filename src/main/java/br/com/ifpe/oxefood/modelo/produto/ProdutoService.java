@@ -34,20 +34,33 @@ public class ProdutoService {
     }
 
     @Transactional
-public void update(Long id, Produto produtoAlterado) {
+    public void update(Long id, Produto produtoAlterado) {
 
-    Produto produto = repository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        Produto produto = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
 
-    produto.setTitulo(produtoAlterado.getTitulo());
-    produto.setCodigo(produtoAlterado.getCodigo());
-    produto.setDescricao(produtoAlterado.getDescricao());
-    produto.setValorUnitario(produtoAlterado.getValorUnitario());
-    produto.setTempoEntregaMinimo(produtoAlterado.getTempoEntregaMinimo());
-    produto.setTempoEntregaMaximo(produtoAlterado.getTempoEntregaMaximo());
-    
-    produto.setVersao(produto.getVersao() + 1);
-    
-    repository.save(produto);
-}
+        produto.setCategoria(produtoAlterado.getCategoria());
+        produto.setTitulo(produtoAlterado.getTitulo());
+        produto.setCodigo(produtoAlterado.getCodigo());
+        produto.setDescricao(produtoAlterado.getDescricao());
+        produto.setValorUnitario(produtoAlterado.getValorUnitario());
+        produto.setTempoEntregaMinimo(produtoAlterado.getTempoEntregaMinimo());
+        produto.setTempoEntregaMaximo(produtoAlterado.getTempoEntregaMaximo());
+        
+        produto.setVersao(produto.getVersao() + 1);
+        
+        repository.save(produto);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+
+        Produto produto = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        
+        produto.setHabilitado(Boolean.FALSE);
+        produto.setVersao(produto.getVersao() + 1);
+
+        repository.save(produto);
+    }
 }

@@ -1,5 +1,6 @@
 package br.com.ifpe.oxefood.modelo.entregador;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ public class EntregadorService {
 
     @Transactional
     public Entregador save(Entregador entregador) {
+        
         entregador.setHabilitado(Boolean.TRUE);
+        entregador.setVersao(1L);
+        entregador.setDataCriacao(LocalDate.now());
         return repository.save(entregador);
     }
     
@@ -30,23 +34,35 @@ public class EntregadorService {
     }
 
     @Transactional
-public void update(Long id, Entregador entregadorAlterado) {
+    public void update(Long id, Entregador entregadorAlterado) {
 
-    Entregador entregador = repository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Entregador não encontrado."));
+        Entregador entregador = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Entregador não encontrado."));
 
-    entregador.setNome(entregadorAlterado.getNome());
-    entregador.setCpf(entregadorAlterado.getCpf());
-    entregador.setRg(entregadorAlterado.getRg());
-    entregador.setDataNascimento(entregadorAlterado.getDataNascimento());
-    entregador.setFoneCelular(entregadorAlterado.getFoneCelular());
-    entregador.setFoneFixo(entregadorAlterado.getFoneFixo());
-    entregador.setQtdEntregasRealizadas(entregadorAlterado.getQtdEntregasRealizadas());
-    entregador.setValorFrete(entregadorAlterado.getValorFrete());
-    entregador.setEndereco(entregadorAlterado.getEndereco());
-    
-    entregador.setVersao(entregador.getVersao() + 1);
+        entregador.setNome(entregadorAlterado.getNome());
+        entregador.setCpf(entregadorAlterado.getCpf());
+        entregador.setRg(entregadorAlterado.getRg());
+        entregador.setDataNascimento(entregadorAlterado.getDataNascimento());
+        entregador.setFoneCelular(entregadorAlterado.getFoneCelular());
+        entregador.setFoneFixo(entregadorAlterado.getFoneFixo());
+        entregador.setQtdEntregasRealizadas(entregadorAlterado.getQtdEntregasRealizadas());
+        entregador.setValorFrete(entregadorAlterado.getValorFrete());
+        entregador.setEndereco(entregadorAlterado.getEndereco());
+        
+        entregador.setVersao(entregador.getVersao() + 1);
 
-    repository.save(entregador);
-}
+        repository.save(entregador);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+
+        Entregador entregador = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Entregador não encontrado."));
+
+        entregador.setHabilitado(Boolean.FALSE);
+        entregador.setVersao(entregador.getVersao() + 1);
+
+        repository.save(entregador);
+    }
 }
