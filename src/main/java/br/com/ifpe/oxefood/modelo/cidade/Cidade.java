@@ -1,15 +1,14 @@
-package br.com.ifpe.oxefood.modelo.cliente;
+package br.com.ifpe.oxefood.modelo.cidade;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import br.com.ifpe.oxefood.modelo.estado.Estado;
 import br.com.ifpe.oxefood.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,30 +17,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Cliente")
+@Table(name = "Cidade")
 @SQLRestriction("habilitado = true")
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cliente extends EntidadeAuditavel {
+public class Cidade extends EntidadeAuditavel {
 
-    @OneToMany(mappedBy = "cliente", orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<EnderecoCliente> enderecos;
-
-    @Column
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column
-    private LocalDate dataNascimento;
+    @ManyToOne(optional = false)
+    private Estado estado;
 
     @Column
-    private String cpf;
+    private Integer qtdPopulacao;
 
     @Column
-    private String foneCelular;
+    private Boolean ehCapital;
 
     @Column
-    private String foneFixo;
+    private LocalDate dataFundacao;
 }
