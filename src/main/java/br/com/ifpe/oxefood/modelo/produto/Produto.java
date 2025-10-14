@@ -24,19 +24,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Produto extends EntidadeAuditavel {
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private CategoriaProduto categoria;
 
     @Column(nullable = false, length = 100)
     private String titulo;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false, length = 100)
     private String codigo;
 
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @Column
+    @Column(nullable = false)
     private Double valorUnitario;
 
     @Column
